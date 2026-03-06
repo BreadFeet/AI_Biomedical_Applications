@@ -50,6 +50,7 @@ To deploy in serverless environment of IBM Cloude Code Engine from Github reposi
 ibmcloud ce build create --name build-git-dockerfile1 \
     --build-type git --size large \
     --source https://github.com/BreadFeet/AI_Biomedical_Applications \
+    --context-dir 02_Parkinson_app_deployment \
     --image us.icr.io/${SN_ICR_NAMESPACE}/myapp1 \
     --registry-secret ${SN_ICR_SECRET}
 ```

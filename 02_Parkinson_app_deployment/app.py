@@ -2,9 +2,19 @@
 import gradio as gr
 import pickle
 import pandas as pd
+import requests
+import cloudpickle as cp
 
-# Load the trained and pickled model from the previous notebook
-rf = pickle.load(open('../rf_model_parkinson', 'rb'))
+# ## This requires to include the trained model in the container for deployment.
+# ## This increases the size of the container and delays the container creation, so will not be used for deployment.
+# # Load the trained and pickled model from the previous notebook
+# rf = pickle.load(open('../rf_model_parkinson', 'rb'))
+
+# Load the trained and pickled model from Github
+url = "https://github.com/BreadFeet/AI_Biomedical_Applications/raw/refs/heads/master/rf_model_parkinson"
+response = requests.get(url)
+response.raise_for_status()
+rf = cp.loads(response.content)
 
 # Get the feature names
 feature_names = rf.feature_names_in_
