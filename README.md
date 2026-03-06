@@ -44,16 +44,36 @@ This project implements a machine learning solution to detect Parkinson's diseas
 
 
 ## Code to Deploy on IBM Cloud Code Engine
-To deploy in serverless environment of IBM Cloude Code Engine from Github repositories, try:
+To deploy in serverless environment of IBM Cloude Code Engine from Github repositories using IBM Cloud Container Registry, 
+1) Create the build configuration:
 ```
 ibmcloud ce build create --name build-git-dockerfile1 \
     --build-type git --size large \
     --source https://github.com/BreadFeet/AI_Biomedical_Applications \
-    --context-dir 02_Parkinson_app_deployment \
     --image us.icr.io/${SN_ICR_NAMESPACE}/myapp1 \
-    --registry-secret icr-secret
+    --registry-secret ${SN_ICR_SECRET}
 ```
-`${SN_ICR_NAMESPACE}` should be replaced by the private IBM Cloud Container Registry namespace.
+`${SN_ICR_NAMESPACE}` should be replaced by the private IBM Cloud Container Registry namespace; `${SN_ICR_SECRET}` by IBM Cloud Registry Secret.
+
+2) Submit a buildrun to the Container Registry:
+```
+ibmcloud ce buildrun submit --name buildrun-git-dockerfile1 \
+    --build build-git-dockerfile1
+```
+
+3) Create the app in the IBM Cloud:
+```
+ibmcloud ce application create --name demo1 \
+    --image us.icr.io/${SN_ICR_NAMESPACE}/myapp1  \
+    --registry-secret ${SN_ICR_SECRET} --ephemeral-storage 2G \
+    --port 7860 --minscale 1
+```
+When it's done, the app is successfuly deployed.
+
+4) Get the URL and access the app:
+```
+ibmcloud ce app get --name demo1 --output url
+```
 
 ## Model Input Features
 
