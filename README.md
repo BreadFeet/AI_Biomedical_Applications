@@ -76,6 +76,14 @@ When it's done, the app is successfuly deployed.
 ibmcloud ce app get --name demo1 --output url
 ```
 
+5) For debugging of errors:
+```
+# logs for buildrun
+ibmcloud ce buildrun logs --name buildrun-git-dockerfile1
+# logs for application
+ibmcloud ce application logs --name demo1
+```
+
 ## Model Input Features
 
 The model expects 22 biomedical features as input. These are typically voice/speech-related measurements from the University of California Irvine (UCI) Parkinson's dataset, which may include:
